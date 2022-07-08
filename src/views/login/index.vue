@@ -32,6 +32,7 @@
 
 <script>
 	import { LoginIn } from "@/api/login.js";
+	import { mapMutations } from "vuex";
 	export default {
 		name: "Index",
 
@@ -67,6 +68,7 @@
 		mounted() {},
 
 		methods: {
+			...mapMutations(["setUserKey"]),
 			async onSubmit() {
 				// console.log("ok");
 				this.$toast.loading({
@@ -86,6 +88,7 @@
 					if (data.errno) return this.$toast.fail(data.errmsg);
 					this.$toast.clear();
 					this.$toast.success(data.errmsg);
+					this.setUserKey(data.data);
 					this.$router.push({
 						path: "/my",
 					});

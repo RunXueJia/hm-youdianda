@@ -12,9 +12,15 @@ export default new Vuex.Store({
     token: (state) => state.userToken.token
   },
   mutations: {
+    //保存登陆状态token
     setUserKey(state, data) {
       state.userToken = data
       setItem(userKey, data)
+    },
+    //退出
+    quit(state) {
+      state.userToken = {}
+      setItem(userKey, {})
     }
   },
   actions: {

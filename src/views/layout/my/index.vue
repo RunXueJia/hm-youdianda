@@ -58,9 +58,12 @@
 			onClickRight() {},
 			//获取用户信息
 			async getUserInfo() {
-				const { data } = await getUserApi(this.token);
-				console.log(data);
-				this.user = data.data.userInfo;
+				try {
+					const { data } = await getUserApi(this.token);
+					console.log(data);
+					if (data.errno) return this.$toast.fail("网络异常");
+					this.user = data.data.userInfo;
+				} catch (error) {}
 			},
 			//退出
 			quitFn() {

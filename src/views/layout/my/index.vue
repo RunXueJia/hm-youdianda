@@ -23,9 +23,9 @@
 		</div>
 		<!-- 收藏点赞等 -->
 		<van-grid :column-num="3" clickable>
-			<van-grid-item icon="like" text="收藏" />
-			<van-grid-item icon="thumb-circle" text="点赞" />
-			<van-grid-item icon="ascending" text="文章" />
+			<van-grid-item icon="like" text="收藏" @click="$router.push('/my/collect')" />
+			<van-grid-item icon="thumb-circle" text="点赞" @click="$router.push('/my/like')" />
+			<van-grid-item icon="ascending" text="文章" @click="$router.push('/my/articles')" />
 		</van-grid>
 		<!-- 我的 -->
 		<van-cell title="我的文章" icon="ascending" is-link />
@@ -59,9 +59,13 @@
 			//获取用户信息
 			async getUserInfo() {
 				try {
-					const { data } = await getUserApi(this.token);
+					const { data } = await getUserApi();
 					console.log(data);
-					if (data.errno) return this.$toast.fail("网络异常");
+					if (data.errno) {
+						this.$toast.fail("网络异常,请重新登录");
+						this.quit();
+						return;
+					}
 					this.user = data.data.userInfo;
 				} catch (error) {}
 			},

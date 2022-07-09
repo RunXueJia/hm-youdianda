@@ -1,9 +1,5 @@
 import requset from '@/requset'
 
-export const getUserApi = (token) => requset({
-
+export const getUserApi = () => requset({
     url: '/home/user/getUserInfo',
-    headers: {
-        token
-    }
 })

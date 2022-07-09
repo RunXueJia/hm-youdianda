@@ -89,7 +89,9 @@
 					this.$toast.clear();
 					this.$toast.success(data.errmsg);
 					this.setUserKey(data.data);
-					this.$router.push({
+					const url = this.$route.query.url;
+					if (url) return this.$router.replace(url);
+					this.$router.replace({
 						path: "/my",
 					});
 				} catch (error) {

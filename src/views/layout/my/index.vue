@@ -2,7 +2,7 @@
 	<div id="my-spc">
 		<!-- 头部 -->
 		<van-nav-bar title="我的" @click-right="onClickRight">
-			<template #right>
+			<template #right v-if="token">
 				<van-icon name="setting-o" />
 			</template>
 		</van-nav-bar>

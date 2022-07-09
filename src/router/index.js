@@ -16,9 +16,14 @@ const routes = [
       {
         path: 'my',
         component: () => import('@/views/layout/my'),
-
-
-
+      },
+      {
+        path: 'release',
+        component: () => import('@/views/layout/release'),
+      },
+      {
+        path: 'classification',
+        component: () => import('@/views/layout/classification'),
       }
 
     ]

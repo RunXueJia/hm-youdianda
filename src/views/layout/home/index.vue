@@ -17,7 +17,7 @@
 		<van-grid :column-num="3">
 			<van-grid-item v-for="obj in hotList" :key="obj.id">
 				<template #default>
-					<img width="100%" height="90px" :src="showImg(obj.pic)" alt />
+					<img width="100%" height="90px" :src="obj.pic | showImg" />
 					<span style="font-size :12px">{{obj.title}}</span>
 				</template>
 			</van-grid-item>
@@ -28,20 +28,17 @@
 		</van-cell-group>
 		<!-- 最新发布 -->
 		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-			<van-cell v-for="item in newlist" :label="item.description" :key="item.id" :title="item.title">
-				<template #default>
-					<van-image show-error height="100px" fit="contain" :src="showImg(item.pic)" />
-				</template>
-			</van-cell>
+			<ArticleItem :item="item" v-for="item in newlist" :key="item.id"></ArticleItem>
 		</van-list>
 	</div>
 </template>
 
 <script>
 	import { getIndexApi, getHotApi, getNewApi } from "@/api/home";
+	import ArticleItem from "./components/articleItem.vue";
 	export default {
 		name: "Index",
-
+		components: { ArticleItem },
 		data() {
 			return {
 				index: {},
@@ -72,7 +69,7 @@
 			},
 			//图片拼接
 			showImg(url) {
-				return "http://124.223.14.236:8060/" + url;
+				return url ? "http://124.223.14.236:8060/" + url : null;
 			},
 			//最新发布
 			async onLoad() {
@@ -106,11 +103,6 @@
 		}
 		.van-notice-bar {
 			height: 40px;
-		}
-		.van-image__error {
-			top: 0;
-			left: -80px;
-			transform: translate(50 50);
 		}
 	}
 </style>

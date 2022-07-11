@@ -24,7 +24,7 @@
 		</van-grid>
 		<!-- 最新发布标题 -->
 		<van-cell-group>
-			<van-cell title="热门推荐" :title-style="'color: #1989fa;font-weight: 700'" />
+			<van-cell title="最新发布" :title-style="'color: #1989fa;font-weight: 700'" />
 		</van-cell-group>
 		<Artlist :url="'/home/index/new'" :params="params"></Artlist>
 	</div>

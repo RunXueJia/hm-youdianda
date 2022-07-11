@@ -8,7 +8,7 @@
 				<div class="p">{{item.description}}</div>
 				<span>
 					<van-icon name="star-o" />
-					收藏({{item.lovenum}})
+					收藏({{item.lovenum || 0}})
 				</span>
 				<span>
 					<van-icon name="good-job-o" />

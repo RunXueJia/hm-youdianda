@@ -2,7 +2,7 @@
 	<div id="classCountent">
 		<van-nav-bar title="列表" fixed placeholder left-arrow @click-left="$router.go(-1)" />
 		<!-- 标签 -->
-		<van-tabs sticky offset-top="46px" v-model="active" swipeable animated>
+		<van-tabs border sticky v-model="active" swipeable animated>
 			<van-tab v-for="obj in allCateList" :key="obj.id" :title="obj.catename">
 				<OneClassCountent :obj="obj"></OneClassCountent>
 			</van-tab>
@@ -40,7 +40,15 @@
 	};
 </script>
 
-<style lang="less" scoped>
-	// #classCountent {
-	// }
+<style lang="less" >
+	#classCountent {
+		.van-sticky {
+			position: fixed;
+			top: 45px;
+			z-index: 99;
+		}
+		.van-list {
+			padding-top: 44px;
+		}
+	}
 </style>

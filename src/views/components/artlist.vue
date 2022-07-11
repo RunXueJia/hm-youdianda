@@ -1,6 +1,13 @@
 <template>
 	<div>
-		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+		<van-list
+			:error.sync="error"
+			error-text="请求失败，点击重新加载"
+			v-model="loading"
+			:finished="finished"
+			finished-text="没有更多了"
+			@load="onLoad"
+		>
 			<ArticleItem :item="item" v-for="item in list" :key="item.id"></ArticleItem>
 		</van-list>
 	</div>
@@ -28,6 +35,7 @@
 				list: [],
 				loading: false,
 				finished: false,
+				error: false,
 			};
 		},
 
@@ -43,6 +51,7 @@
 					this.list = [...this.list, ...list];
 					this.loading = false;
 					if (list.length < this.params.limit) this.finished = true;
+					if (data.errno) this.error = true;
 				} catch (error) {}
 			},
 		},

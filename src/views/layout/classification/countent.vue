@@ -45,6 +45,8 @@
 		.van-sticky {
 			position: fixed;
 			top: 45px;
+			right: 0;
+			left: 0;
 			z-index: 99;
 		}
 		.van-list {

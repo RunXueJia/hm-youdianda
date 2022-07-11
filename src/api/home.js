@@ -6,7 +6,3 @@ export const getIndexApi = () => requset({
 export const getHotApi = () => requset({
     url: '/home/index/hot',
 })
-export const getNewApi = (url, params) => requset({
-    url: url,
-    params
-})

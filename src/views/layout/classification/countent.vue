@@ -50,7 +50,7 @@
 			z-index: 99;
 		}
 		.van-list {
-			padding-top: 44px;
+			padding-top: 48px;
 		}
 	}
 </style>

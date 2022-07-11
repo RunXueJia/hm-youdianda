@@ -57,7 +57,8 @@
 			}
 		}
 		.fa {
-			margin-bottom: 10px;
+			margin-bottom: 8px;
+			font-size: 20px;
 		}
 	}
 </style>

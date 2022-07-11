@@ -2,13 +2,11 @@
 	<div id="classification">
 		<van-nav-bar title="分类" fixed placeholder />
 		<van-grid :column-num="2" clickable>
-			<van-grid-item
-				@click="go(obj)"
-				v-for="obj in allCateList"
-				:key="obj.id"
-				icon="smile"
-				:text="obj.catename"
-			/>
+			<van-grid-item @click="go(obj)" v-for="obj in allCateList" :key="obj.id" :text="obj.catename">
+				<template #icon>
+					<i class="fa" :class="obj.icon"></i>
+				</template>
+			</van-grid-item>
 		</van-grid>
 	</div>
 </template>
@@ -32,7 +30,7 @@
 			//获取分类列表
 			async getClass() {
 				const { data } = await getIndexApi();
-				// console.log(data.data.allCate);
+				console.log(data.data.allCate);
 				this.allCateList = data.data.allCate;
 			},
 			//跳转
@@ -57,6 +55,9 @@
 			.van-nav-bar__title {
 				color: #fff;
 			}
+		}
+		.fa {
+			margin-bottom: 10px;
 		}
 	}
 </style>

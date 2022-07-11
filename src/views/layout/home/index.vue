@@ -35,7 +35,7 @@
 
 <script>
 	import { getIndexApi, getHotApi, getNewApi } from "@/api/home";
-	import ArticleItem from "./components/articleItem.vue";
+	import ArticleItem from "@/views/components/articleItem.vue";
 	export default {
 		name: "Index",
 		components: { ArticleItem },

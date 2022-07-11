@@ -24,9 +24,14 @@ const routes = [
       {
         path: 'classification',
         component: () => import('@/views/layout/classification'),
-      }
+      },
+
 
     ]
+  },
+  {
+    path: '/classCountent',
+    component: () => import('@/views/layout/classification/countent.vue'),
   },
   {
     path: '/login',

@@ -2,10 +2,18 @@
 	<div id="ArticleItem">
 		<van-cell style="height:127px">
 			<template #title>
-				<div class="p title">{{item.title}}</div>
+				<div class="p">{{item.title}}</div>
 			</template>
 			<template #label>
-				<div class="p dis">{{item.description}}</div>
+				<div class="p">{{item.description}}</div>
+				<span>
+					<van-icon name="star-o" />
+					收藏({{item.lovenum}})
+				</span>
+				<span>
+					<van-icon name="good-job-o" />
+					点赞({{item.click}})
+				</span>
 			</template>
 			<template #default>
 				<van-image show-error height="100px" fit="contain" :src="item.pic | showImg" />
@@ -30,6 +38,9 @@
 		mounted() {},
 
 		methods: {},
+		created() {
+			console.log(this.item);
+		},
 	};
 </script>
 
@@ -46,12 +57,7 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			-webkit-box-orient: vertical;
-		}
-		.title {
 			-webkit-line-clamp: 2;
-		}
-		.dis {
-			-webkit-line-clamp: 3;
 		}
 	}
 </style>

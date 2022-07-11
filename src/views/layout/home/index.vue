@@ -17,7 +17,7 @@
 		<van-grid :column-num="3">
 			<van-grid-item v-for="obj in hotList" :key="obj.id">
 				<template #default>
-					<img width="100%" height="90px" :src="obj.pic | showImg" />
+					<van-image height="90px" :src="obj.pic | showImg" />
 					<span style="font-size :12px">{{obj.title}}</span>
 				</template>
 			</van-grid-item>
@@ -26,28 +26,24 @@
 		<van-cell-group>
 			<van-cell title="热门推荐" :title-style="'color: #1989fa;font-weight: 700'" />
 		</van-cell-group>
-		<!-- 最新发布 -->
-		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-			<ArticleItem :item="item" v-for="item in newlist" :key="item.id"></ArticleItem>
-		</van-list>
+		<Artlist :url="'/home/index/new'" :params="params"></Artlist>
 	</div>
 </template>
 
 <script>
-	import { getIndexApi, getHotApi, getNewApi } from "@/api/home";
-	import ArticleItem from "@/views/components/articleItem.vue";
+	import { getIndexApi, getHotApi } from "@/api/home";
+	import Artlist from "@/views/components/artlist.vue";
 	export default {
 		name: "Index",
-		components: { ArticleItem },
+		components: { Artlist },
 		data() {
 			return {
 				index: {},
 				hotList: [],
-				newlist: [],
-				loading: false,
-				finished: false,
-				page: 0,
-				limit: 10,
+				params: {
+					page: 0,
+					limit: 10,
+				},
 			};
 		},
 
@@ -70,19 +66,6 @@
 			//图片拼接
 			showImg(url) {
 				return url ? "http://124.223.14.236:8060/" + url : null;
-			},
-			//最新发布
-			async onLoad() {
-				this.page++;
-				const { data } = await getNewApi({
-					page: this.page,
-					limit: this.limit,
-				});
-				const list = data.data.list.data;
-				console.log(list, "----------");
-				this.newlist = [...this.newlist, ...list];
-				this.loading = false;
-				if (list.length < this.limit) this.finished = true;
 			},
 		},
 		created() {

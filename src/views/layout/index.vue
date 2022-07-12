@@ -6,22 +6,38 @@
 			<van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
 			<van-tabbar-item replace to="/classification" icon="apps-o">分类</van-tabbar-item>
 			<van-tabbar-item replace to="/release" icon="edit">发布</van-tabbar-item>
-			<van-tabbar-item replace to="/my" icon="manager-o">我的</van-tabbar-item>
+			<van-tabbar-item replace to="/my" icon="manager-o">{{token ? '我的':'未登录'}}</van-tabbar-item>
 		</van-tabbar>
 	</div>
 </template>
 
 <script>
+	import { mapGetters, mapMutations } from "vuex";
+	import { getUserApi } from "@/api/my";
 	export default {
-		name: "Index",
-
+		name: "LayOut",
+		computed: {
+			...mapGetters(["token"]),
+		},
 		data() {
 			return {};
 		},
 
 		mounted() {},
-
-		methods: {},
+		created() {
+			if (this.token) this.testToken();
+		},
+		methods: {
+			...mapMutations(["quit"]),
+			async testToken() {
+				const { data } = await getUserApi();
+				// console.log(data);
+				if (data.errno) {
+					this.quit();
+					this.$toast.fail("登录已过期");
+				}
+			},
+		},
 	};
 </script>
 

@@ -13,6 +13,7 @@
 
 <script>
 	import { getIndexApi } from "@/api/home";
+
 	export default {
 		name: "classification",
 

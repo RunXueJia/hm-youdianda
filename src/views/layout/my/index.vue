@@ -60,7 +60,7 @@
 			async getUserInfo() {
 				try {
 					const { data } = await getUserApi();
-					console.log(data);
+					// console.log(data);
 					if (data.errno) {
 						this.$toast.fail("网络异常,请重新登录");
 						this.quit();

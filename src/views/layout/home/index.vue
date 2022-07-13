@@ -31,14 +31,14 @@
 </template>
 
 <script>
-	import { getIndexApi, getHotApi } from "@/api/home";
+	import { getHotApi } from "@/api/home";
 	import Artlist from "@/views/components/artlist.vue";
+	import { mapState } from "vuex";
 	export default {
 		name: "Index",
 		components: { Artlist },
 		data() {
 			return {
-				index: {},
 				hotList: [],
 				params: {
 					page: 0,
@@ -46,17 +46,10 @@
 				},
 			};
 		},
-
+		computed: { ...mapState(["index"]) },
 		mounted() {},
 
 		methods: {
-			//轮播图
-			async init() {
-				const { data } = await getIndexApi();
-				// console.log(data);
-				if (data.errno) return this.$toast.fail("网络异常");
-				this.index = data.data;
-			},
 			//获取热门推荐
 			async getHot() {
 				const { data } = await getHotApi();
@@ -69,7 +62,6 @@
 			},
 		},
 		created() {
-			this.init();
 			this.getHot();
 		},
 	};

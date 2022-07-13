@@ -2,9 +2,9 @@
 	<div id="classification">
 		<van-nav-bar title="分类" fixed placeholder />
 		<van-grid :column-num="2" clickable>
-			<van-grid-item @click="go(obj)" v-for="obj in allCateList" :key="obj.id" :text="obj.catename">
+			<van-grid-item @click="go(obj)" v-for="obj in index.allCate" :key="obj.id" :text="obj.catename">
 				<template #icon>
-					<i class="fa" :class="obj.icon"></i>
+					<i class="fa" :class="obj.icon "></i>
 				</template>
 			</van-grid-item>
 		</van-grid>
@@ -12,28 +12,17 @@
 </template>
 
 <script>
-	import { getIndexApi } from "@/api/home";
-
+	import { mapState } from "vuex";
 	export default {
 		name: "classification",
 
 		data() {
-			return {
-				allCateList: [],
-			};
+			return {};
 		},
-
+		computed: { ...mapState(["index"]) },
 		mounted() {},
-		created() {
-			this.getClass();
-		},
+		created() {},
 		methods: {
-			//获取分类列表
-			async getClass() {
-				const { data } = await getIndexApi();
-				console.log(data.data.allCate);
-				this.allCateList = data.data.allCate;
-			},
 			//跳转
 			go(obj) {
 				// console.log(obj);
@@ -41,7 +30,7 @@
 					path: "/classCountent",
 					query: {
 						cateid: obj.id,
-						index: this.allCateList.findIndex((item) => item.id === obj.id),
+						index: this.index.allCate.findIndex((item) => item.id === obj.id),
 					},
 				});
 			},

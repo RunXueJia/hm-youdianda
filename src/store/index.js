@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const userKey = 'YOUDIANDA-USER'
 export default new Vuex.Store({
   state: {
-    userToken: getItem(userKey) || {}
+    userToken: getItem(userKey) || {},
+    index: {}
   },
   getters: {
     token: (state) => state.userToken.token
@@ -21,6 +22,10 @@ export default new Vuex.Store({
     quit(state) {
       state.userToken = {}
       setItem(userKey, {})
+    },
+    //setIndex
+    setIndex(state, data) {
+      state.index = data
     }
   },
   actions: {

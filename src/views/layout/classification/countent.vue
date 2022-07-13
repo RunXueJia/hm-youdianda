@@ -3,7 +3,7 @@
 		<van-nav-bar title="列表" fixed placeholder left-arrow @click-left="$router.go(-1)" />
 		<!-- 标签 -->
 		<van-tabs border sticky v-model="active" swipeable animated>
-			<van-tab v-for="obj in allCateList" :key="obj.id" :title="obj.catename">
+			<van-tab v-for="obj in index.allCate" :key="obj.id" :title="obj.catename">
 				<OneClassCountent :obj="obj"></OneClassCountent>
 			</van-tab>
 		</van-tabs>
@@ -11,32 +11,24 @@
 </template>
 
 <script>
-	import { getIndexApi } from "@/api/home";
+	import { mapState } from "vuex";
 	import OneClassCountent from "./componetent/index.vue";
 	export default {
 		name: "classCountent",
+		computed: { ...mapState(["index"]) },
 		components: {
 			OneClassCountent,
 		},
 		data() {
 			return {
-				allCateList: [],
-				active: this.$route.query.index * 1,
+				active: +this.$route.query.index,
 			};
 		},
 
 		mounted() {},
 
-		methods: {
-			//获取分类列表
-			async getClass() {
-				const { data } = await getIndexApi();
-				this.allCateList = data.data.allCate;
-			},
-		},
-		created() {
-			this.getClass();
-		},
+		methods: {},
+		created() {},
 	};
 </script>
 

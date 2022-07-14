@@ -29,6 +29,9 @@
 			params: {
 				type: Object,
 			},
+			isMy: {
+				type: Boolean,
+			},
 		},
 		data() {
 			return {
@@ -46,7 +49,12 @@
 				try {
 					this.params.page++;
 					const { data } = await getArtListApi(this.url, this.params);
-					const list = data.data.list.data;
+					let list = [];
+					if (this.isMy) {
+						list = data.data.data;
+					} else {
+						list = data.data.list.data;
+					}
 					// console.log(list, "----------");
 					this.list = [...this.list, ...list];
 					this.loading = false;

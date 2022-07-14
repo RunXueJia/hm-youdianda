@@ -4,7 +4,7 @@
 		<!-- 轮播图 -->
 		<van-swipe :autoplay="3000" :indicator-color="'#fff'">
 			<van-swipe-item v-for="image in index.banner" :key="image.id">
-				<img style="display: block" width="100%" height="170px" v-lazy="showImg(image.advimgsrc)" />
+				<img style="display: block" width="100%" height="170px" :src="image.advimgsrc | showImg " />
 			</van-swipe-item>
 		</van-swipe>
 		<!-- 最新公告 -->
@@ -56,10 +56,6 @@
 				if (data.errno) return this.$toast.fail("网络异常");
 				this.hotList = data.data.list;
 			},
-			//图片拼接
-			showImg(url) {
-				return url ? "http://124.223.14.236:8060/" + url : null;
-			},
 		},
 		created() {
 			this.getHot();
@@ -86,6 +82,7 @@
 			text-overflow: ellipsis;
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: 1;
+			text-align: center;
 		}
 	}
 </style>

@@ -85,24 +85,24 @@
 					await this.$refs.form.validate("mobile");
 					await this.$refs.form.validate("password");
 					await this.$refs.form.validate("passwordB");
-					console.log("ok");
+					// console.log("ok");
 				} catch (error) {
-					console.log("不ok");
+					// console.log("不ok");
 				}
 				try {
 					const { data } = await reg(this.user);
-					console.log(data);
+					// console.log(data);
 					if (!data.errno) {
 						this.$toast.clear();
 						this.$toast.success(data.errmsg);
-						this.$router.push({
+						this.$router.replace({
 							path: "/login",
 						});
 					} else {
 						this.$toast.fail(data.errmsg);
 					}
 				} catch (error) {
-					console.log(error);
+					// console.log(error);
 				}
 			},
 		},

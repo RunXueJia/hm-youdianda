@@ -78,13 +78,13 @@
 				try {
 					await this.$refs.form.validate("mobile");
 					await this.$refs.form.validate("password");
-					console.log("ok");
+					// console.log("ok");
 				} catch (error) {
-					console.log("不ok");
+					// console.log("不ok");
 				}
 				try {
 					const { data } = await LoginIn(this.user);
-					console.log(data);
+					// console.log(data);
 					if (data.errno) return this.$toast.fail(data.errmsg);
 					this.$toast.clear();
 					this.$toast.success(data.errmsg);
@@ -95,7 +95,7 @@
 						path: "/my",
 					});
 				} catch (error) {
-					console.log(error);
+					// console.log(error);
 				}
 			},
 		},

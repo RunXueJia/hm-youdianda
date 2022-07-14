@@ -53,7 +53,7 @@
 			<!-- 文件上传 -->
 			<van-field label="文件上传">
 				<template #input>
-					<van-uploader :max-count="2" v-model="imageList" multiple />
+					<van-uploader show-upload :max-count="1" v-model="imageList" multiple />
 				</template>
 			</van-field>
 			<!-- 文章正文 -->
@@ -69,9 +69,9 @@
 			/>
 			<!--  -->
 			<div class="btns">
-				<van-button @click="addArticle" icon="plus" type="primary">发布</van-button>
-				<van-button @click.prevent icon="send-gift-o" type="info">存草稿</van-button>
-				<van-button @click.prevent icon="revoke" type="danger">重置</van-button>
+				<van-button @click="UpArticle" icon="plus" type="primary">发布</van-button>
+				<van-button @click="SaveArticle" icon="send-gift-o" type="info">存草稿</van-button>
+				<van-button @click.prevent="clear" icon="revoke" type="danger">重置</van-button>
 			</div>
 		</van-form>
 		<!-- <van-button @click="up" icon="revoke" type="danger">上传文件测试</van-button> -->
@@ -130,14 +130,20 @@
 			// },
 
 			//发布文章
-			async addArticle() {
+			async addArticle(status) {
 				let formData = new FormData();
 				formData.append("file", this.imageList[0].file);
+				this.imageList[0].message = "上传中...";
+				this.imageList[0].status = "uploading";
+
 				try {
 					const { data } = await uploadImageApi(formData);
 					// console.log(data);
 					this.pic = data.data.savePath;
-					if (data.errno) return this.$toast.fail("图片上传失败");
+					if (data.errno) {
+						this.imageList[0].status = "failed";
+						this.imageList[0].message = "上传失败";
+					}
 				} catch (error) {}
 				try {
 					const { data } = await addArticleApi({
@@ -145,16 +151,20 @@
 						cateid: this.cateid,
 						content: this.ArticleText,
 						pic: this.pic,
-						status: "2",
+						status,
 						tags: this.ArtTag,
 						title: this.ArticleTitle,
 					});
 
 					if (!data.errno) {
-						this.$toast.success("文章发布成功");
+						this.$toast.success(`文章${status === "1" ? "保存" : "发布"}成功`);
 						this.clear();
+						this.$router.push("/my/articles");
 					}
-					if (data.errno) return this.$toast.fail("文章发布失败");
+					if (data.errno)
+						return this.$toast.fail(
+							`文章${status === "1" ? "保存" : "发布"}失败`
+						);
 				} catch (error) {}
 			},
 			//清除数据
@@ -166,6 +176,14 @@
 				this.ArticleTitle = "";
 				this.imageList = [];
 				this.ArtCate = "";
+			},
+			//发布文章
+			UpArticle() {
+				this.addArticle("2");
+			},
+			//保存草稿
+			SaveArticle() {
+				this.addArticle("1");
 			},
 		},
 	};

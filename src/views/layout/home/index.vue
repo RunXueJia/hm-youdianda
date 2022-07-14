@@ -18,7 +18,7 @@
 			<van-grid-item v-for="obj in hotList" :key="obj.id">
 				<template #default>
 					<van-image height="90px" :src="obj.pic | showImg" />
-					<span style="font-size :12px">{{obj.title}}</span>
+					<span class="HotTitle" style="font-size :12px">{{obj.title}}</span>
 				</template>
 			</van-grid-item>
 		</van-grid>
@@ -78,6 +78,14 @@
 		}
 		.van-notice-bar {
 			height: 40px;
+		}
+		.HotTitle {
+			display: -webkit-box;
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
 		}
 	}
 </style>

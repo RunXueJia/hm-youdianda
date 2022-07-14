@@ -23,3 +23,5 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 export default instance
+
+///home/user/userDataHandle?type=2&article_id=54&action=del

@@ -1,24 +1,31 @@
 <template>
 	<div id="ArticleItem">
-		<van-cell style="height:127px">
-			<template #title>
-				<div class="p">{{item.title}}</div>
+		<van-swipe-cell>
+			<van-cell style="height:127px">
+				<template #title>
+					<div class="p">{{item.title}}</div>
+				</template>
+				<template #label>
+					<div class="p">{{item.description}}</div>
+					<span>
+						<van-icon name="star-o" />
+						收藏({{item.lovenum || 0}})
+					</span>
+					<span>
+						<van-icon name="good-job-o" />
+						点赞({{item.click}})
+					</span>
+				</template>
+				<template #default>
+					<van-image show-error height="100px" fit="contain" :src="item.pic | showImg" />
+				</template>
+			</van-cell>
+			<!--  -->
+			<template #right>
+				<!-- <van-button style="height:100%" square type="danger" text="删除" /> -->
+				<slot name="rightBtn"></slot>
 			</template>
-			<template #label>
-				<div class="p">{{item.description}}</div>
-				<span>
-					<van-icon name="star-o" />
-					收藏({{item.lovenum || 0}})
-				</span>
-				<span>
-					<van-icon name="good-job-o" />
-					点赞({{item.click}})
-				</span>
-			</template>
-			<template #default>
-				<van-image show-error height="100px" fit="contain" :src="item.pic | showImg" />
-			</template>
-		</van-cell>
+		</van-swipe-cell>
 	</div>
 </template>
 
@@ -40,6 +47,7 @@
 		methods: {},
 		created() {
 			// console.log(this.item);
+			// console.log(this.$route);
 		},
 	};
 </script>

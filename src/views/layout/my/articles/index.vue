@@ -1,8 +1,8 @@
 <template>
 	<div id="myArticles">
-		<van-nav-bar @click-left="$router.back()" left-arrow title="我的"></van-nav-bar>
+		<van-nav-bar fixed placeholder @click-left="$router.back()" left-arrow title="我的文章"></van-nav-bar>
 		<!-- 我的文章列表 -->
-		<ArtList :url="url" :isMy="true" :params="params"></ArtList>
+		<ArtList :isRight="isRight" :url="url" :isMy="true" :params="params"></ArtList>
 	</div>
 </template>
 
@@ -21,7 +21,21 @@
 					limit: 10,
 				},
 				url: "/home/user/myArticle",
+				isRight: [
+					{
+						btnName: "删除",
+						url: "/home/user/delArticle",
+						params: {},
+						type: "danger",
+					},
+					{
+						btnName: "修改",
+						type: "primary",
+					},
+				],
 			};
+
+			///home/user/delArticle?id=462
 		},
 
 		mounted() {},

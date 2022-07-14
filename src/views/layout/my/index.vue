@@ -29,8 +29,8 @@
 		</van-grid>
 		<!-- 我的 -->
 		<van-cell title="我的文章" @click="$router.push('/my/articles')" icon="ascending" is-link />
-		<van-cell title="我的点赞" icon="thumb-circle" is-link />
-		<van-cell title="我的收藏" icon="like" is-link />
+		<van-cell title="我的点赞" icon="thumb-circle" @click="$router.push('/my/like')" is-link />
+		<van-cell title="我的收藏" @click="$router.push('/my/collect')" icon="like" is-link />
 		<div class="btn" v-if="token">
 			<van-button @click="quitFn" type="info">立即退出</van-button>
 		</div>

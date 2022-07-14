@@ -11,3 +11,14 @@ export const addArticleApi = (data) => requset({
     url: '/home/user/addArticle',
     data,
 })
+
+export const getArticleInfoApi = (id) => requset({
+    url: '/index/show/?id=' + id,
+})
+//        /home/user/editArticle
+
+export const editArticleApi = (data) => requset({
+    method: 'post',
+    url: '/home/user/editArticle',
+    data
+})

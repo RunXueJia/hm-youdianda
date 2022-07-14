@@ -4,7 +4,7 @@
 		<!-- 表单 -->
 		<van-form validate-first @failed="onFailed">
 			<van-field
-				v-model="ArticleTitle"
+				v-model="params.title"
 				name="pattern"
 				label="文章标题"
 				placeholder="请输入文章标题"
@@ -35,7 +35,7 @@
 				readonly
 				clickable
 				name="picker"
-				:value="ArtTag"
+				:value="params.tags"
 				label="文章标签"
 				placeholder="点击选择文章标签"
 				@click="showTag = true"
@@ -58,7 +58,7 @@
 			</van-field>
 			<!-- 文章正文 -->
 			<van-field
-				v-model="ArticleText"
+				v-model="params.content"
 				rows="2"
 				autosize
 				label="文章内容"
@@ -69,8 +69,9 @@
 			/>
 			<!--  -->
 			<div class="btns">
-				<van-button @click="UpArticle" icon="plus" type="primary">发布</van-button>
+				<van-button v-if="!edit" @click="UpArticle" icon="plus" type="primary">发布</van-button>
 				<van-button @click="SaveArticle" icon="send-gift-o" type="info">存草稿</van-button>
+				<van-button v-if="edit" @click="EditArticle" type="warning" icon="edit">修改文章</van-button>
 				<van-button @click.prevent="clear" icon="revoke" type="danger">重置</van-button>
 			</div>
 		</van-form>
@@ -80,7 +81,12 @@
 
 <script>
 	import { mapState } from "vuex";
-	import { uploadImageApi, addArticleApi } from "@/api/reslease";
+	import {
+		uploadImageApi,
+		addArticleApi,
+		getArticleInfoApi,
+		editArticleApi,
+	} from "@/api/reslease";
 	export default {
 		name: "release",
 		computed: {
@@ -88,20 +94,28 @@
 		},
 		data() {
 			return {
-				ArticleTitle: "",
 				ArtCate: "",
-				cateid: "",
-				ArtTag: "",
 				showCate: false, //文章分类选择
 				showTag: false, //文章标签选择
 				imageList: [],
-				ArticleText: "",
 				pic: "",
+				params: {
+					cateid: "",
+					content: "",
+					tags: "",
+					title: "",
+				},
+				edit: false,
 			};
 		},
 
 		mounted() {},
-
+		created() {
+			if (this.$route.query.id) {
+				this.edit = true;
+				this.initData(this.$route.query.id);
+			}
+		},
 		methods: {
 			onFailed(errorInfo) {
 				// console.log("failed", errorInfo);
@@ -109,81 +123,99 @@
 			//分类选择
 			onCate(value) {
 				this.ArtCate = value.catename;
-				this.cateid = value.id;
+				if (this.edit) this.params.catename = value.catename;
+				this.params.cateid = value.id;
 				this.showCate = false;
 			},
 			//标签选择
 			onTag(value) {
-				this.ArtTag = value.tagname;
+				this.params.tags = value.tagname;
 				this.showTag = false;
 			},
-			//文件上传
-			// async upImage() {
-			// console.log(this.imageList[0].file);
-			// let formData = new FormData();
-			// formData.append("file", this.imageList[0].file);
-			// try {
-			// 	const { data } = await uploadImageApi(formData);
-			// 	this.pic = data.data.savePath;
-			// 	if (data.errno) return this.$toast.fail("图片上传失败");
-			// } catch (error) {}
-			// },
 
 			//发布文章
 			async addArticle(status) {
-				let formData = new FormData();
-				formData.append("file", this.imageList[0].file);
-				this.imageList[0].message = "上传中...";
-				this.imageList[0].status = "uploading";
+				if (this.imageList[0].file) {
+					let formData = new FormData();
+					formData.append("file", this.imageList[0].file);
+					this.imageList[0].message = "上传中...";
+					this.imageList[0].status = "uploading";
 
+					try {
+						const { data } = await uploadImageApi(formData);
+						// console.log(data);
+						this.pic = data.data.savePath;
+						if (data.errno) {
+							this.imageList[0].status = "failed";
+							this.imageList[0].message = "上传失败";
+						}
+					} catch (error) {}
+				}
 				try {
-					const { data } = await uploadImageApi(formData);
-					// console.log(data);
-					this.pic = data.data.savePath;
-					if (data.errno) {
-						this.imageList[0].status = "failed";
-						this.imageList[0].message = "上传失败";
-					}
-				} catch (error) {}
-				try {
-					const { data } = await addArticleApi({
-						author: "",
-						cateid: this.cateid,
-						content: this.ArticleText,
-						pic: this.pic,
-						status,
-						tags: this.ArtTag,
-						title: this.ArticleTitle,
-					});
+					this.params.pic = this.pic;
+					const { data } = status
+						? await addArticleApi(this.params)
+						: await editArticleApi(this.params);
 
 					if (!data.errno) {
-						this.$toast.success(`文章${status === "1" ? "保存" : "发布"}成功`);
+						this.$toast.success(
+							`文章${status === "1" ? "保存" : status ? "发布" : "修改"}成功`
+						);
 						this.clear();
 						this.$router.push("/my/articles");
 					}
 					if (data.errno)
 						return this.$toast.fail(
-							`文章${status === "1" ? "保存" : "发布"}失败`
+							`文章${status === "1" ? "保存" : status ? "发布" : "修改"}失败`
 						);
 				} catch (error) {}
 			},
 			//清除数据
 			clear() {
-				this.cateid = "";
-				this.ArticleText = "";
-				this.pic = "";
-				this.ArtTag = "";
-				this.ArticleTitle = "";
-				this.imageList = [];
+				this.params.cateid = "";
+				this.params.content = "";
+				this.params.tags = "";
+				this.params.title = "";
 				this.ArtCate = "";
+				this.imageList = [];
+				this.pic = "";
 			},
-			//发布文章
+			//发布文章的前置动作
 			UpArticle() {
+				this.beforeUp("2");
+
 				this.addArticle("2");
 			},
 			//保存草稿
 			SaveArticle() {
+				let params = {
+					cateid: this.params.cateid,
+					content: this.params.content,
+					tags: this.params.tags,
+					title: this.params.title,
+				};
+				this.params = params;
+				this.beforeUp("1");
 				this.addArticle("1");
+			},
+			//发布前的数据总集
+			beforeUp(status) {
+				this.params.status = status;
+			},
+			//修改文章
+			EditArticle() {
+				this.addArticle(false);
+			},
+			//修改文章的页面初始化
+			async initData(id) {
+				const { data } = await getArticleInfoApi(id);
+				console.log(data.data.info);
+				this.params = data.data.info;
+				this.ArtCate = data.data.info.catename;
+				this.pic = data.data.info.pic;
+				this.imageList.push({
+					url: "http://122.51.249.55:8060/" + data.data.info.pic,
+				});
 			},
 		},
 	};

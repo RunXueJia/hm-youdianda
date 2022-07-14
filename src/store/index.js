@@ -7,7 +7,7 @@ const userKey = 'YOUDIANDA-USER'
 export default new Vuex.Store({
   state: {
     userToken: getItem(userKey) || {},
-    index: {}
+    index: getItem('YOUDIANDA-INDEX-INFO') || {}
   },
   getters: {
     token: (state) => state.userToken.token
@@ -25,6 +25,7 @@ export default new Vuex.Store({
     },
     //setIndex
     setIndex(state, data) {
+      setItem('YOUDIANDA-INDEX-INFO', data)
       state.index = data
     }
   },

@@ -13,7 +13,7 @@ export const addArticleApi = (data) => requset({
 })
 
 export const getArticleInfoApi = (id) => requset({
-    url: '/index/show/?id=' + id,
+    url: '/index/show?id=' + id,
 })
 //        /home/user/editArticle
 

@@ -12,9 +12,7 @@
 </template>
 
 <script>
-	import { mapGetters, mapMutations } from "vuex";
-	import { getUserApi } from "@/api/my";
-	import { getIndexApi } from "@/api/home";
+	import { mapGetters } from "vuex";
 
 	export default {
 		name: "LayOut",
@@ -26,25 +24,8 @@
 		},
 
 		mounted() {},
-		created() {
-			if (this.token) this.testToken();
-			this.getindex();
-		},
-		methods: {
-			...mapMutations(["quit", "setIndex"]),
-			async testToken() {
-				const { data } = await getUserApi();
-				// console.log(data);
-				if (data.errno) {
-					this.quit();
-					this.$toast.fail("登录已过期");
-				}
-			},
-			async getindex() {
-				const { data } = await getIndexApi();
-				this.setIndex(data.data);
-			},
-		},
+		created() {},
+		methods: {},
 	};
 </script>
 

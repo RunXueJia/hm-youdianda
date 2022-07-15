@@ -42,6 +42,10 @@ const routes = [
     component: () => import('@/views/reg'),
   },
   {
+    path: '/articleinfo',
+    component: () => import('@/views/articleinfo'),
+  },
+  {
     path: '/my/articles',
     component: () => import('@/views/layout/my/articles'),
     meta: {

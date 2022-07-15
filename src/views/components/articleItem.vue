@@ -1,7 +1,7 @@
 <template>
 	<div id="ArticleItem">
 		<van-swipe-cell>
-			<van-cell style="height:127px">
+			<van-cell @click="goArticleInfo(item.id)" style="height:127px">
 				<template #title>
 					<div class="p">{{item.title}}</div>
 				</template>
@@ -44,7 +44,16 @@
 
 		mounted() {},
 
-		methods: {},
+		methods: {
+			goArticleInfo(id) {
+				this.$router.push({
+					path: "/articleinfo",
+					query: {
+						id,
+					},
+				});
+			},
+		},
 		created() {
 			// console.log(this.item);
 			// console.log(this.$route);

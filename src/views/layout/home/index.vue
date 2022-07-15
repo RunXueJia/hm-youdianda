@@ -2,7 +2,7 @@
 	<div id="home-spc">
 		<van-nav-bar title="首页" fixed placeholder />
 		<!-- 轮播图 -->
-		<van-swipe :autoplay="3000" :indicator-color="'#fff'">
+		<van-swipe :autoplay="2000" :indicator-color="'#fff'">
 			<van-swipe-item v-for="image in index.banner" :key="image.id">
 				<img style="display: block" width="100%" height="170px" :src="image.advimgsrc | showImg " />
 			</van-swipe-item>
@@ -15,12 +15,7 @@
 		</van-cell-group>
 		<!-- 热门推荐内容 -->
 		<van-grid :column-num="3">
-			<van-grid-item v-for="obj in hotList" :key="obj.id">
-				<template #default>
-					<van-image height="90px" :src="obj.pic | showImg" />
-					<span class="HotTitle" style="font-size :12px">{{obj.title}}</span>
-				</template>
-			</van-grid-item>
+			<GridItem :obj="obj" v-for="obj in hotList" :key="obj.id"></GridItem>
 		</van-grid>
 		<!-- 最新发布标题 -->
 		<van-cell-group>
@@ -74,15 +69,6 @@
 		}
 		.van-notice-bar {
 			height: 40px;
-		}
-		.HotTitle {
-			display: -webkit-box;
-			width: 100px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 1;
-			text-align: center;
 		}
 	}
 </style>

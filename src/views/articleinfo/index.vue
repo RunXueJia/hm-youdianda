@@ -50,6 +50,8 @@
 				</template>
 			</van-cell>
 			<!-- 相关推荐 -->
+			<van-cell title="相关推荐" :title-style="'color: #1989fa;font-weight: 700'" />
+
 			<van-grid :column-num="2">
 				<GridItem v-for="obj in ArticleData.recommend" :key="obj.id" :obj="obj"></GridItem>
 			</van-grid>

@@ -47,10 +47,10 @@
 		methods: {
 			goArticleInfo(id) {
 				this.$router.push({
-					path: "/articleinfo",
-					query: {
-						id,
-					},
+					path: "/articleinfo/" + id,
+					// query: {
+					// 	id,
+					// },
 				});
 			},
 		},

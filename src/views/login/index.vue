@@ -91,12 +91,8 @@
 					this.setUserKey(data.data);
 					const url = this.$route.query.url;
 					if (url) return this.$router.replace(url);
-					this.$router.replace({
-						path: "/my",
-					});
-				} catch (error) {
-					// console.log(error);
-				}
+					this.$router.back();
+				} catch (error) {}
 			},
 		},
 	};

@@ -39,8 +39,11 @@
 						action: this.value ? "del" : "add",
 						article_id: this.id,
 					});
-					if (data.errno)
-						return this.$toast.fail(this.value ? "取消收藏失败" : "收藏失败");
+					if (data.errno) {
+						// this$toast.fail(this.value ? "取消收藏失败" : "收藏失败");
+						this.isLoading = false;
+						return;
+					}
 
 					this.$toast.success(this.value ? "取消收藏成功" : "收藏成功");
 					this.$emit("input", !this.value);

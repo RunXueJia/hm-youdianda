@@ -1,7 +1,5 @@
 <template>
-	<div>
-		<ArtList :url="url" :params="params"></ArtList>
-	</div>
+	<ArtList :url="url" :params="params"></ArtList>
 </template>
 
 <script>

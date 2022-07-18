@@ -26,10 +26,7 @@
 			//热门推荐去文章详情
 			goArticleInfo(id) {
 				this.$router.push({
-					path: "/articleinfo",
-					query: {
-						id,
-					},
+					path: "/articleinfo/" + id,
 				});
 			},
 		},

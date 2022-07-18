@@ -1,6 +1,14 @@
 <template>
 	<div id="ArticleInfo">
-		<van-nav-bar @click-left="$router.back()" left-arrow title="文章" fixed placeholder />
+		<van-nav-bar
+			right-text="返回首页"
+			@click-left="$router.back()"
+			left-arrow
+			title="文章"
+			fixed
+			placeholder
+			@click-right="$router.push('/home')"
+		/>
 		<!-- 加载中 -->
 		<div v-if="LoadingStatus===1" class="loading-wrap">
 			<van-loading color="#3296fa" vertical>加载中</van-loading>
@@ -14,12 +22,6 @@
 				<van-image class="avatar" slot="icon" round fit="cover" :src="ArticleData.info.pic | showImg" />
 				<div slot="title" class="user-name">{{ArticleData.info.author}}</div>
 				<div slot="label" class="publish-date">{{ArticleData.info.create_date | getrelativeTime}}</div>
-				<!-- <van-button class="follow-btn" type="info" color="#3296fa" round size="small" icon="plus">关注</van-button> -->
-				<!-- <van-button
-                 class="follow-btn"
-                 round
-                 size="small"
-				>已关注</van-button>-->
 			</van-cell>
 			<!-- /用户信息 -->
 			<div
@@ -28,13 +30,33 @@
 				class="ArticleContent markdown-body"
 				v-html="ArticleData.info.content"
 			></div>
+			<!-- 分割线 -->
+			<van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">正文结束</van-divider>
+			<!-- 上一篇   下一篇 -->
+			<van-cell>
+				<template #default>
+					<router-link
+						v-if="ArticleData.next.length"
+						class="link"
+						:to="'/articleinfo/'+ArticleData.next[0].id"
+					>下一篇</router-link>
+				</template>
+				<template #title>
+					<router-link
+						v-if="ArticleData.prev.length"
+						class="link"
+						:to="'/articleinfo/'+ArticleData.prev[0].id"
+					>上一篇</router-link>
+				</template>
+			</van-cell>
+			<!-- 相关推荐 -->
+			<van-grid :column-num="2">
+				<GridItem v-for="obj in ArticleData.recommend" :key="obj.id" :obj="obj"></GridItem>
+			</van-grid>
 			<!-- 底部区域 -->
 			<div class="article-bottom">
-				<!-- <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
-				<van-icon name="comment-o" badge="123" color="#777" />-->
-				<!-- <van-icon color="#777" name="star-o" /> -->
 				<CollectArticle v-model="ArticleData.info.isCollect" :id="ArticleData.info.id"></CollectArticle>
-				<!-- <van-icon color="#777" name="good-job-o" /> -->
+
 				<LikeArticle :isLike.sync="ArticleData.info.isLike" :id="ArticleData.info.id"></LikeArticle>
 				<van-icon @click="showShare=true" name="share" color="#777777"></van-icon>
 			</div>
@@ -81,15 +103,22 @@
 				],
 			};
 		},
-
-		mounted() {},
-		created() {
-			this.getArticleInfoFn();
+		watch: {
+			$route: {
+				deep: true,
+				immediate: true,
+				handler(val) {
+					// console.log(val);
+					this.getArticleInfoFn();
+				},
+			},
 		},
+		mounted() {},
+		created() {},
 		methods: {
 			async getArticleInfoFn() {
 				this.LoadingStatus = 1;
-				const { data } = await getArticleInfoApi(this.$route.query.id);
+				const { data } = await getArticleInfoApi(this.$route.params.id);
 				// console.log(data);
 				this.ArticleData = data.data;
 				this.LoadingStatus = 2;
@@ -133,6 +162,9 @@
 		* {
 			text-indent: 0 !important;
 		}
+		.link {
+			color: rgb(25, 137, 250);
+		}
 		.user-info {
 			margin-bottom: 10px;
 			padding: 0 16px;
@@ -167,6 +199,9 @@
 				color: #fff;
 			}
 			.van-icon {
+				color: #fff;
+			}
+			.van-nav-bar__text {
 				color: #fff;
 			}
 		}

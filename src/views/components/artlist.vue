@@ -1,28 +1,26 @@
 <template>
-	<div>
-		<van-list
-			:error.sync="error"
-			error-text="请求失败，点击重新加载"
-			v-model="loading"
-			:finished="finished"
-			finished-text="没有更多了"
-			@load="onLoad"
-		>
-			<ArticleItem :item="item" v-for="item in list" :key="item.id">
-				<template #rightBtn v-if="isRight">
-					<van-button
-						v-for="(btn ,index) in isRight"
-						:key="index"
-						style="height:100%;"
-						square
-						:type="btn.type"
-						:text="btn.btnName"
-						@click="action(btn,item)"
-					/>
-				</template>
-			</ArticleItem>
-		</van-list>
-	</div>
+	<van-list
+		:error.sync="error"
+		error-text="请求失败，点击重新加载"
+		v-model="loading"
+		:finished="finished"
+		finished-text="没有更多了"
+		@load="onLoad"
+	>
+		<ArticleItem :item="item" v-for="item in list" :key="item.id">
+			<template #rightBtn v-if="isRight">
+				<van-button
+					v-for="(btn ,index) in isRight"
+					:key="index"
+					style="height:100%;"
+					square
+					:type="btn.type"
+					:text="btn.btnName"
+					@click="action(btn,item)"
+				/>
+			</template>
+		</ArticleItem>
+	</van-list>
 </template>
 
 <script>
@@ -81,7 +79,7 @@
 			async action(btn, item) {
 				try {
 					if (btn.btnName === "修改") return this.EditArticle(item);
-					console.log("123");
+					// console.log("123");
 					if (this.isMy) {
 						//删除我的文章
 						await BtnActionApi(btn.url, {

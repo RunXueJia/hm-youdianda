@@ -1,15 +1,18 @@
 <template>
 	<div id="my-spc">
 		<!-- 头部 -->
-		<van-nav-bar title="我的" @click-right="onClickRight">
-			<template #right v-if="token">
+		<van-nav-bar title="我的" @click-right="$router.push('/my/edit')">
+			<template #right v-if="isLoad">
 				<van-icon name="setting-o" />
 			</template>
 		</van-nav-bar>
 		<!-- 信息展示 -->
-		<div class="islogin" v-if="token">
-			<van-image round width="60px" height="60px" src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-			<h1>{{user.username}}</h1>
+		<div class="islogin" v-if="isLoad">
+			<van-image round width="60px" height="60px" :src="user.icon | showImg" />
+			<div class="note">
+				<h1>{{user.username}}</h1>
+				<span v-if="user.notes.length">{{user.notes}}</span>
+			</div>
 		</div>
 		<div class="userInfo" v-else @click="$router.push('/login')">
 			<div class="plogin">
@@ -19,7 +22,7 @@
 					<p>登陆之后更精彩</p>
 				</div>
 			</div>
-			<van-icon name="arrow" v-if="!token" />
+			<van-icon name="arrow" v-if="!isLoad" />
 		</div>
 		<!-- 收藏点赞等 -->
 		<van-grid :column-num="3" clickable>
@@ -31,7 +34,7 @@
 		<van-cell title="我的文章" @click="$router.push('/my/articles')" icon="ascending" is-link />
 		<van-cell title="我的点赞" icon="thumb-circle" @click="$router.push('/my/like')" is-link />
 		<van-cell title="我的收藏" @click="$router.push('/my/collect')" icon="like" is-link />
-		<div class="btn" v-if="token">
+		<div class="btn" v-if="isLoad">
 			<van-button @click="quitFn" type="info">立即退出</van-button>
 		</div>
 	</div>
@@ -48,6 +51,7 @@
 		data() {
 			return {
 				user: {},
+				isLoad: false,
 			};
 		},
 
@@ -55,18 +59,18 @@
 
 		methods: {
 			...mapMutations(["quit"]),
-			onClickRight() {},
 			//获取用户信息
 			async getUserInfo() {
+				if (!this.token) return;
 				try {
 					const { data } = await getUserApi();
 					// console.log(data);
 					if (data.errno) {
-						this.$toast.fail("网络异常,请重新登录");
-						this.quit();
+						// this.$toast.fail("网络异常,请重新登录");
 						return;
 					}
 					this.user = data.data.userInfo;
+					this.isLoad = true;
 				} catch (error) {}
 			},
 			//退出
@@ -79,6 +83,7 @@
 					.then(() => {
 						// on confirm
 						this.quit();
+						this.isLoad = false;
 					})
 					.catch(() => {
 						// on cancel
@@ -109,11 +114,23 @@
 			height: 120px;
 			background-color: skyblue;
 			padding: 30px 16px;
-			h1 {
+			.note {
 				margin-left: 10px;
-				color: #fff;
-				font-weight: 700;
-				font-size: 20px;
+				h1 {
+					color: #fff;
+					font-weight: 700;
+					font-size: 20px;
+					margin-bottom: 5px;
+					margin-top: 5px;
+				}
+				span {
+					color: #fff;
+					display: -webkit-box;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+				}
 			}
 		}
 		.userInfo {

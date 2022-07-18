@@ -1,5 +1,7 @@
 import axios from "axios";
 import store from "@/store";
+import { Toast } from 'vant';
+import router from "@/router";
 const instance = axios.create({
     baseURL: 'http://122.51.249.55:8060'
 });
@@ -17,9 +19,15 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
+    // console.log(response);
+    if (response.data.errno === 9997) {
+        Toast.fail('登录过期请重新登录')
+        router.push('/login')
+    }
     return response;
 }, function (error) {
     // 对响应错误做点什么
+    // console.log(error);
     return Promise.reject(error);
 });
 export default instance

@@ -19,7 +19,7 @@
 
 		mounted() {},
 		created() {
-			if (this.token) this.testToken();
+			// if (this.token) this.testToken();
 			this.getindex();
 		},
 		methods: {

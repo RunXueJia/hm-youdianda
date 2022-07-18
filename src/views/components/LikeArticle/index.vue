@@ -39,8 +39,11 @@
 						action: this.isLike ? "del" : "add",
 						article_id: this.id,
 					});
-					if (data.errno)
-						return this.$toast.fail(this.isLike ? "取消点赞失败" : "点赞失败");
+					if (data.errno) {
+						// this.$toast.fail(this.isLike ? "取消点赞失败" : "点赞失败");
+						this.isLoading = false;
+						return;
+					}
 
 					this.$toast.success(this.isLike ? "取消点赞成功" : "点赞成功");
 					this.$emit("update:isLike", !this.isLike);

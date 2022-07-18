@@ -186,7 +186,7 @@
 
 				this.addArticle("2");
 			},
-			//保存草稿
+			//保存草稿的前置动作
 			SaveArticle() {
 				let params = {
 					cateid: this.params.cateid,

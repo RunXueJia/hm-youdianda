@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import { Toast } from 'vant';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,8 +44,15 @@ const routes = [
     component: () => import('@/views/reg'),
   },
   {
-    path: '/articleinfo',
+    path: '/articleinfo/:id',
     component: () => import('@/views/articleinfo'),
+  },
+  {
+    path: '/my/edit',
+    component: () => import('@/views/edituserinfo'),
+    meta: {
+      needLogin: true
+    }
   },
   {
     path: '/my/articles',
@@ -84,7 +93,11 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
 
 router.beforeEach((to, from, next) => {
   /* must call `next` */
-  if (to.meta.needLogin && !store.getters.token) return next('/login?url=' + to.path)
+  if (to.meta.needLogin && !store.getters.token) {
+    Toast.fail('请先登录')
+    next('/login?url=' + to.path)
+    return
+  }
   next()
 
 });

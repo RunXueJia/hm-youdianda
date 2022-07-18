@@ -2,7 +2,7 @@
 	<div id="release-spc">
 		<van-nav-bar title="发布" fixed placeholder />
 		<!-- 表单 -->
-		<van-form validate-first @failed="onFailed">
+		<van-form v-if="$store.getters.token" validate-first @failed="onFailed">
 			<van-field
 				v-model="params.title"
 				name="pattern"
@@ -75,6 +75,10 @@
 				<van-button @click.prevent="clear" icon="revoke" type="danger">重置</van-button>
 			</div>
 		</van-form>
+		<div class="noLogin" v-else>
+			<van-image width="160" height="160" src="https://img01.yzcdn.cn/vant/empty-image-error.png" />
+			<p>请登录</p>
+		</div>
 		<!-- <van-button @click="up" icon="revoke" type="danger">上传文件测试</van-button> -->
 	</div>
 </template>
@@ -234,6 +238,11 @@
 			display: flex;
 			justify-content: space-between;
 			padding: 0 16px;
+		}
+		.noLogin {
+			text-align: center;
+			padding-top: 30px;
+			color: #969799;
 		}
 	}
 </style>

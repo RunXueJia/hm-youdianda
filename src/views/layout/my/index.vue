@@ -130,6 +130,7 @@
 					text-overflow: ellipsis;
 					-webkit-box-orient: vertical;
 					-webkit-line-clamp: 2;
+					width: 200px;
 				}
 			}
 		}

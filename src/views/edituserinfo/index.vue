@@ -127,7 +127,7 @@
 			//选择头像图片
 			choseImg() {
 				const img = this.$refs.inp.files[0];
-				console.log(img);
+				// console.log(img);
 				const types = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
 				if (!types.includes(img.type))
 					return this.$toast.fail("不支持的图片类型");

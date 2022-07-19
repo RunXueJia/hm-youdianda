@@ -16,7 +16,7 @@
 				rows="2"
 				autosize
 				type="textarea"
-				maxlength="7"
+				maxlength="50"
 				placeholder="请输入地址"
 				show-word-limit
 			/>

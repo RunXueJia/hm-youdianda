@@ -4,7 +4,9 @@
 		<!-- 标签 -->
 		<van-tabs border sticky v-model="active" swipeable animated>
 			<van-tab v-for="obj in index.allCate" :key="obj.id" :title="obj.catename">
-				<OneClassCountent :obj="obj"></OneClassCountent>
+				<div style="height: 630px; overflow: auto;">
+					<OneClassCountent :obj="obj"></OneClassCountent>
+				</div>
 			</van-tab>
 		</van-tabs>
 	</div>

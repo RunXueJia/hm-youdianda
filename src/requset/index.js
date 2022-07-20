@@ -3,7 +3,7 @@ import store from "@/store";
 import { Toast } from 'vant';
 import router from "@/router";
 const instance = axios.create({
-    baseURL: 'http://122.51.249.55:8060'
+    baseURL: process.env.VUE_APP_ApiUrl
 });
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {

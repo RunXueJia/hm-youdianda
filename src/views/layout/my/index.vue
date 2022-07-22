@@ -11,7 +11,7 @@
 			<van-image round width="60px" height="60px" :src="user.icon | showImg" />
 			<div class="note">
 				<h1>{{user.username}}</h1>
-				<span v-if="user.notes.length">{{user.notes}}</span>
+				<span v-if="user.notes&& user.notes.length">{{user.notes}}</span>
 			</div>
 		</div>
 		<div class="userInfo" v-else @click="$router.push('/login')">

@@ -91,7 +91,7 @@
 					this.setUserKey(data.data);
 					const url = this.$route.query.url;
 					if (url) return this.$router.replace(url);
-					this.$router.back();
+					this.$router.push("/my");
 				} catch (error) {}
 			},
 		},
